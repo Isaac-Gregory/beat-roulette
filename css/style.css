@@ -1,8 +1,17 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #5353E8;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
+}
+
+main
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 header {
@@ -10,6 +19,8 @@ header {
     color: white;
     padding: 10px 20px;
     text-align: center;
+    width: 100vw;
+    position: relative;
 }
 
 footer {
@@ -20,4 +31,43 @@ footer {
     position: fixed;
     width: 100%;
     bottom: 0;
+}
+
+.container {
+    background-color: #92BAFF;
+    width: 500px;
+    height: 300px;
+    display: flex;
+    flex-direction: row;
+}
+
+.album-cover {
+    width: 45%;
+    height: 80%;
+    background-color: black;
+}
+
+.information {
+    width: 45%;
+    height: 80%;
+    background-color: black;
+}
+
+.spacer {
+    width: 10%;
+}
+
+.logo {
+    width: 10%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.beat-roulette-logo {
+    width: 100%;
+}
+
+.title {
+    width: 100%
 }
