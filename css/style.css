@@ -3,6 +3,7 @@ body {
     background-color: #5353E8;
     margin: 0;
     padding: 0;
+    width: 100vw;
     overflow-x: hidden;
 }
 
@@ -19,18 +20,7 @@ header {
     color: white;
     padding: 10px 20px;
     text-align: center;
-    width: 100vw;
     position: relative;
-}
-
-footer {
-    background-color: #333;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
 }
 
 .container {
@@ -38,23 +28,39 @@ footer {
     width: 500px;
     height: 300px;
     display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
+}
+
+.container-title {
+    width: 100%;
+    height: 20%;
+    text-align: center;
+}
+
+.song-container {
+    display: flex;
     flex-direction: row;
+    height: 80%;
 }
 
 .album-cover {
-    width: 45%;
-    height: 80%;
+    width: 47.5%;
+    height: 90%;
     background-color: black;
+    margin: 10px 10px;
 }
 
 .information {
-    width: 45%;
-    height: 80%;
+    width: 47.5%;
+    height: 90%;
     background-color: black;
+    margin: 10px 10px
 }
 
 .spacer {
-    width: 10%;
+    width: 5%;
 }
 
 .logo {
@@ -70,4 +76,8 @@ footer {
 
 .title {
     width: 100%
+}
+
+.container-spacer {
+    height: 2vh;
 }
