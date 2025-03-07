@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Beat Roulette</title>
+        <link rel="stylesheet" href="../css/style.css" />
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <img src="../images/Beat-RouletteLogo.png" class="beat-roulette-logo"/>
+            </div>
+            <h1 class="title">Beat Roulette</h1>
+            <nav class="navbar">
+                <ul class="nav-list">
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="pages/add-songs.html">Add Songs</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <div class="center-container">
+                <div class="form-container">
+                    <h2>Add Song</h2>
+                    <form action="#" method="POST" class="form">
+                        <label for="songName">Song Name:</label>
+                        <input type="text" id="songName" name="songName" required><br><br>
+
+                        <label for="artistName">Artist Name:</label>
+                        <input type="text" id="artistName" name="artistName" required><br><br>
+
+                        <label for="genre">Whose list to insert into:</label>
+                        <select id="genre" name="genre" required>
+                            <option value="">--Please select a genre</option>
+                            <option value="isaac">Isaac</option>
+                            <option value="judd">Judd</option>
+                            <option value="reuben">Reuben</option>
+                            <option value="scott">Scott</option>
+                        </select><br><br>
+
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
