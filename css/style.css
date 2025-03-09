@@ -5,6 +5,7 @@ body {
     padding: 0;
     width: 100vw;
     overflow-x: hidden;
+    position: absolute;
 }
 
 main
@@ -21,6 +22,8 @@ header {
     padding: 10px 20px;
     text-align: center;
     position: relative;
+    height: 4vh;
+    top: 0;
 }
 
 .container {
@@ -64,7 +67,8 @@ header {
 }
 
 .logo {
-    width: 5%;
+    max-width: 5%;
+    height: 5vh;
     position: absolute;
     top: 0;
     left: 0;
@@ -72,10 +76,14 @@ header {
 
 .beatRouletteLogo {
     width: 100%;
+    height: 100%;
 }
 
 .title {
-    width: 100%
+    width: 100%;
+    height: 4vh;
+    padding-top: 0.5vh;
+    margin: 0;
 }
 
 .containerSpacer {
@@ -84,7 +92,7 @@ header {
 
 .navbar {
     position: absolute;
-    top: 1vw;;
+    top: 1vh;
     right: 2vw;
     width: 20%;
     overflow: hidden;
