@@ -33,19 +33,19 @@ header {
     box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
 }
 
-.container-title {
+.containerTitle {
     width: 100%;
     height: 20%;
     text-align: center;
 }
 
-.song-container {
+.songContainer {
     display: flex;
     flex-direction: row;
     height: 80%;
 }
 
-.album-cover {
+.albumCover {
     width: 47.5%;
     height: 90%;
     background-color: black;
@@ -70,7 +70,7 @@ header {
     left: 0;
 }
 
-.beat-roulette-logo {
+.beatRouletteLogo {
     width: 100%;
 }
 
@@ -78,7 +78,7 @@ header {
     width: 100%
 }
 
-.container-spacer {
+.containerSpacer {
     height: 2vh;
 }
 
@@ -90,18 +90,18 @@ header {
     overflow: hidden;
 }
 
-.nav-list {
+.navList {
     display: flex;
     list-style-type: none;
     margin: 0;
     padding: 0;
 }
 
-.nav-list li {
+.navList li {
     flex: 1;
 }
 
-.nav-list li a {
+.navList li a {
     display: block;
     padding: 14px 20px;
     color: white;
@@ -109,7 +109,7 @@ header {
     text-decoration: none;
 }
 
-.form-container {
+.formContainer {
     width: 30vw;
     height: 50vh;
     background-color: #92BAFF;
@@ -121,7 +121,7 @@ header {
     align-items: center;
 }
 
-.center-container {
+.centerContainer {
     display: flex;
     justify-content: center;
     align-items: center;
