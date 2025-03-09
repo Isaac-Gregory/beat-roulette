@@ -4,6 +4,7 @@ body {
     margin: 0;
     padding: 0;
     width: 100vw;
+    height: 100vh;
     overflow-x: hidden;
     position: absolute;
 }
@@ -13,7 +14,26 @@ main
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
+    height: 75vh;
+}
+
+.leftContainer {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
+    padding-top: 5vh;
+}
+
+.rightContainer {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 5vh;
 }
 
 header {
@@ -28,8 +48,8 @@ header {
 
 .container {
     background-color: #92BAFF;
-    width: 500px;
-    height: 300px;
+    width: 35vw;
+    height: 35vh;
     display: flex;
     flex-direction: column;
     border-radius: 20px;
@@ -88,6 +108,10 @@ header {
 
 .containerSpacer {
     height: 2vh;
+}
+
+.containerSpacerHorizontal {
+    width: 2vw;
 }
 
 .navbar {
