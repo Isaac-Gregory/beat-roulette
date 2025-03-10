@@ -19,18 +19,18 @@
                 </ul>
             </nav>
         </header>
-
+        
         <main>
             <div class="centerContainer">
                 <div class="formContainer">
                     <h2>Add Song</h2>
-                    <form action="#" method="POST" class="form">
+                    <form action="#" class="form">
                         <label for="songName">Song Name:</label>
                         <input type="text" id="songName" name="songName" required><br><br>
-
+                        
                         <label for="artistName">Artist Name:</label>
                         <input type="text" id="artistName" name="artistName" required><br><br>
-
+                        
                         <label for="genre">Whose list to insert into:</label>
                         <select id="genre" name="genre" required>
                             <option value="">--Please select a genre</option>
@@ -39,8 +39,9 @@
                             <option value="reuben">Reuben</option>
                             <option value="scott">Scott</option>
                         </select><br><br>
-
-                        <button type="submit">Submit</button>
+                        
+                        <button type="submit" id="addSongButton">Submit</button>
+                        <script type="module" src="/js/firebase.js"></script>
                     </form>
                 </div>
             </div>
