@@ -26,7 +26,7 @@ addSongButton.addEventListener('click', async function() {
   // Getting information from page
   const songName = document.getElementById('songName').value;
   const artistName = document.getElementById('artistName').value;
-  const rouletteOwner = document.getElementById('genre').value;
+  const rouletteOwner = document.getElementById('listName').value;
 
   // Getting roulette collection
   const groupRoulettes = collection(db, "/groups/AAA/roulettes/");
