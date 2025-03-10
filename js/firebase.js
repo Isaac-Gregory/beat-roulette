@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, addDoc } from 'firebase/firestore/lite';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+import { getFirestore, collection, getDocs, addDoc, query, where } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
+// import { initializeApp } from 'firebase/app';
+// import { getFirestore, collection, getDocs, addDoc, query, where } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -17,15 +19,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// try {
-//     const docRef = await addDoc(collection(db, "users"), {
-//     first: "Alan",
-//     middle: "Mathison",
-//     last: "Turing",
-//     born: 1912
-//     });
+// Listening for user to add song to a roulette 
+const addSongButton = document.getElementById('addSongButton');
+addSongButton.addEventListener('click', async function() {
 
-//     console.log("Document written with ID: ", docRef.id);
-// } catch (e) {
-//     console.error("Error adding document: ", e);
-// }
+  // Getting information from page
+  const songName = document.getElementById('songName').value;
+  const artistName = document.getElementById('artistName').value;
+  const rouletteOwner = document.getElementById('genre').value;
+
+  // Getting roulette collection
+  const groupRoulettes = collection(db, "/groups/AAA/roulettes/");
+  const q = query(groupRoulettes, where("owner", "==", rouletteOwner));
+  const rouletteDoc = await (await getDocs(q)).docs[0];
+
+  // Adding song to roulette
+  const roulette = collection(db, "/groups/AAA/roulettes/", rouletteDoc.ref.id, "/songs/");
+  await addDoc(roulette, {"artist": artistName, "title": songName});
+});
