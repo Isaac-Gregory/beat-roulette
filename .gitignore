@@ -9,6 +9,9 @@ yarn-error.log
 # IDE config
 .vscode/
 
+# Firebase configuration
+*firebase-config*
+
 # macOS-specific files
 .DS_Store
 
