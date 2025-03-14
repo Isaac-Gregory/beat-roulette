@@ -147,7 +147,7 @@ header {
     text-decoration: none;
 }
 
-.formContainer {
+/* .formContainer {
     width: 30vw;
     height: 50vh;
     background-color: #92BAFF;
@@ -166,7 +166,7 @@ header {
     width: 100%;
     height: 80vh;
     overflow-y: hidden;
-}
+} */
 
 p {
     font-size: 1.25vw;
@@ -188,4 +188,75 @@ p {
 .albumName p, .artistName p, .songName p
 {
     display: inline;
+}
+
+/* Centering the form container
+.centerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh; /* Full viewport height 
+    background-color: #92BAFF;
+} */
+
+/* Styling the form container */
+.formContainer {
+    background: white;
+    padding: 20px;
+    padding-right: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+}
+
+/* Styling the form title */
+.formContainer h2 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+/* Form label styling */
+.form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #444;
+    text-align: left;
+}
+
+/* Input field styling */
+.form input,
+.form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Submit button styling */
+#addSongButton {
+    background: #92BAFF; /* Blue color */
+    color: black;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+#addSongButton:hover {
+    background: #0056b3;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
+    .formContainer {
+        width: 90%;
+    }
 }
