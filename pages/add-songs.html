@@ -44,6 +44,17 @@
                         </select><br><br>
                         
                         <button type="submit" id="addSongButton">Submit</button>
+
+                        <div id="songPopup" class="popup">
+                            <div class="popup-content">
+                                <h3>IS THIS THE CORRECT SONG?</h3>
+                                <p id="popupSongName"></p>
+                                <p id="popupArtistName"></p>
+                                <img id="popupAlbumArt" src="" alt="Album Cover" />
+                                <button id="confirmSong" type="button">Confirm</button>
+                                <button id="cancelPopup" type="button">Cancel</button>
+                            </div>
+                        </div>
                         <script type="module" src="/js/firebase.js"></script>
                     </form>
                 </div>
