@@ -127,4 +127,5 @@ document.querySelector(".form").addEventListener("submit", function (event) {
 // Event listener for canceling the popup
 document.getElementById("cancelPopup").addEventListener('click', function () {
     document.getElementById("songPopup").style.display = "none";
+    document.getElementById("popupOverlay").style.display = "none";
 });

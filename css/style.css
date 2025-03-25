@@ -275,19 +275,6 @@ p {
     width: 100%;
 }
 
-/* Make song title smaller */
-.song-name {
-    font-size: 14px; /* Reduce size */
-    font-weight: bold;
-    margin: 2px 0;
-}
-
-/* Slightly reduce artist name size */
-.artist-name {
-    font-size: 12px;
-    color: gray;
-}
-
 /* Popup container */
 #songPopup {
     display: none;
@@ -309,14 +296,17 @@ p {
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 100%;
     overflow: hidden;
 }
 
 /* Song list inside popup (scrollable) */
 #popupSongList {
-    flex-grow: 1; /* Takes remaining space */
-    overflow-y: auto; /* Enables vertical scrolling */
+    flex-grow: 1; /* Take remaining space */
+    max-height: calc(5 * 90px); /* Approx height of 5 songs (adjust if needed) */
+    overflow-y: auto; /* Enable vertical scroll if more than 5 songs */
     padding: 10px;
+    /* width: 100%; */
 }
 
 /* Style for individual song buttons */
@@ -324,33 +314,53 @@ p {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 8px;
+    padding: 10px;
     margin-bottom: 5px;
     background: #f5f5f5;
     border: none;
     cursor: pointer;
     border-radius: 5px;
     transition: background 0.3s ease;
+    height: 80px; /* Set a consistent height for each song */
 }
 
 .song-option:hover {
     background: #e0e0e0;
 }
 
-/* Increase album cover size */
+.song-option .song-details {
+    flex-grow: 1; /* Allow text to expand */
+    min-width: 0; /* Prevent overflow issues */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adds '...' if text overflows */
+}
+
 .album-art {
-    width: 70px; /* Increase size */
+    width: 70px;
     height: 70px;
     border-radius: 8px;
     margin-right: 10px;
 }
 
-/* Adjust song details */
+/* Song details layout */
 .song-details {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+
+/* Adjust font sizes */
+.song-name {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 2px 0;
+}
+
+.artist-name {
+    font-size: 12px;
+    color: gray;
 }
 
 /* Cancel button */
@@ -369,7 +379,6 @@ p {
     background: darkred;
 }
 
-/* Overlay background (gray filter) */
 #popupOverlay {
     display: none;
     position: fixed;
