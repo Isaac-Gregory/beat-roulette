@@ -13,43 +13,76 @@ const db = getFirestore(app);
 
 // Function to display multiple song choices
 async function showPopup(songName, artistName, albumName) {
-  searchSong(songName + " " + artistName + " " + albumName, 5)
-      .then(tracks => {
-          const popup = document.getElementById("songPopup");
-          const songList = document.getElementById("popupSongList");
-          songList.innerHTML = ""; // Clear previous content
+    searchSong(songName + " " + artistName + " " + albumName, 10)
+        .then(tracks => {
+            const popup = document.getElementById("songPopup");
+            const overlay = document.getElementById("popupOverlay");
+            const songList = document.getElementById("popupSongList");
+            songList.innerHTML = ""; // Clear previous content
+            
+            // Normalize songName for comparison
+            const normalizedSongName = songName.toLowerCase().trim();
 
-          if (tracks.length > 0) {
-              tracks.forEach(track => {
-                  const songButton = document.createElement("button");
-                  songButton.classList.add("song-option");
-                  songButton.dataset.song = JSON.stringify(track); // Store track data
+            // Filter out songs that are completely unrelated
+            const filteredTracks = tracks.filter(track => {
+                const trackName = track.name.toLowerCase().trim();
+                return trackName.includes(normalizedSongName) || levenshteinDistance(normalizedSongName, trackName) <= 3;
+            });
+
+            if (filteredTracks.length > 0) {
+                filteredTracks.forEach(track => {
                   
-                  const songData = {
-                    name: track.name,
-                    artists: track.artists.map(artist => artist.name).join(', '),
-                    albumArt: track.album.images[0].url
-                };
+                    const songButton = document.createElement("button");
+                    songButton.classList.add("song-option");
+                    songButton.dataset.song = JSON.stringify(track); // Store track data
+                    
+                    const songData = {
+                        name: track.name,
+                        artists: track.artists.map(artist => artist.name).join(', '),
+                        albumArt: track.album.images[0].url
+                    };
 
-                  songButton.innerHTML = `
-                      <img src="${track.album.images[0].url}" alt="Album Cover" class="album-art" />
-                      <div class="song-details">
-                          <p class="song-name"><strong>${track.name}</strong></p>
-                          <p class="artist-name">${track.artists.map(artist => artist.name).join(', ')}</p>
-                      </div>
-                  `;
-                  
-                  songButton.addEventListener("click", () => confirmSongSelection(songData));
+                    songButton.innerHTML = `
+                        <img src="${track.album.images[0].url}" alt="Album Cover" class="album-art" />
+                        <div class="song-details">
+                            <p class="song-name"><strong>${track.name}</strong></p>
+                            <p class="artist-name">${track.artists.map(artist => artist.name).join(', ')}</p>
+                        </div>
+                    `;
+                    
+                    songButton.addEventListener("click", () => confirmSongSelection(songData));
 
-                  songList.appendChild(songButton);
-              });
+                    songList.appendChild(songButton);
+                });
 
-              popup.style.display = "flex";
-          } else {
-              console.warn("No tracks found.");
-          }
-      })
-      .catch(error => console.error("Error fetching song:", error));
+                popup.style.display = "flex";
+                overlay.style.display = "block"; // Show gray background
+            } else {
+                console.warn("No tracks found.");
+            }
+        })
+        .catch(error => console.error("Error fetching song:", error));
+}
+
+function levenshteinDistance(a, b) {
+    const dp = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+
+    for (let i = 0; i <= a.length; i++) {
+        for (let j = 0; j <= b.length; j++) {
+            if (i === 0) {
+                dp[i][j] = j;
+            } else if (j === 0) {
+                dp[i][j] = i;
+            } else {
+                dp[i][j] = Math.min(
+                    dp[i - 1][j] + 1, // Deletion
+                    dp[i][j - 1] + 1, // Insertion
+                    dp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1) // Substitution
+                );
+            }
+        }
+    }
+    return dp[a.length][b.length];
 }
 
 // Function to add the selected song to the database
@@ -82,16 +115,16 @@ async function confirmSongSelection(song) {
 
 // Event listener for form submission
 document.querySelector(".form").addEventListener("submit", function (event) {
-  event.preventDefault(); // Prevent form submission
+    event.preventDefault(); // Prevent form submission
 
-  const songName = document.getElementById("songName").value;
-  const artistName = document.getElementById("artistName").value;
-  const albumName = document.getElementById("albumName").value;
+    const songName = document.getElementById("songName").value;
+    const artistName = document.getElementById("artistName").value;
+    const albumName = document.getElementById("albumName").value;
 
-  showPopup(songName, artistName, albumName);
+    showPopup(songName, artistName, albumName);
 });
 
 // Event listener for canceling the popup
 document.getElementById("cancelPopup").addEventListener('click', function () {
-  document.getElementById("songPopup").style.display = "none";
+    document.getElementById("songPopup").style.display = "none";
 });
