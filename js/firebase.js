@@ -11,45 +11,73 @@ import { searchSong } from './spotify.js';
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Listening for user to add song to a roulette 
-const addSongButton = document.getElementById('confirmSong');
-addSongButton.addEventListener('click', async function() {
-
-  // Getting information from page
-  const songName = document.getElementById('songName').value;
-  const artistName = document.getElementById('artistName').value;
-  const rouletteOwner = document.getElementById('listName').value;
-
-  // Getting roulette collection
-  const groupRoulettes = collection(db, "/groups/AAA/roulettes/");
-  const q = query(groupRoulettes, where("owner", "==", rouletteOwner));
-  const rouletteDoc = await (await getDocs(q)).docs[0];
-
-  // Adding song to roulette
-  const roulette = collection(db, "/groups/AAA/roulettes/", rouletteDoc.ref.id, "/songs/");
-  await addDoc(roulette, {"artist": artistName, "title": songName});
-
-  document.getElementById("songPopup").style.display = "none";
-});
-
-// Show popup with song details
+// Function to display multiple song choices
 async function showPopup(songName, artistName, albumName) {
   searchSong(songName + " " + artistName + " " + albumName, 5)
-    .then(tracks => {
-      if (tracks.length > 0) {
-        console.log(tracks);
-          const track = tracks[0]; // Directly access the first track
+      .then(tracks => {
+          const popup = document.getElementById("songPopup");
+          const songList = document.getElementById("popupSongList");
+          songList.innerHTML = ""; // Clear previous content
 
-          // Adding song info to HTML
-          document.getElementById("popupSongName").innerText = `Song: ${track.name}`;
-          document.getElementById("popupArtistName").innerText = `Artist(s): ${track.artists.map(artist => artist.name).join(', ')}`;
-          document.getElementById("popupAlbumArt").src = track.album.images[0].url;
-          document.getElementById("songPopup").style.display = "flex";
-      } else {
-          console.warn("No tracks found.");
-      }
-  })
-  .catch(error => console.error("Error fetching song:", error));
+          if (tracks.length > 0) {
+              tracks.forEach(track => {
+                  const songButton = document.createElement("button");
+                  songButton.classList.add("song-option");
+                  songButton.dataset.song = JSON.stringify(track); // Store track data
+                  
+                  const songData = {
+                    name: track.name,
+                    artists: track.artists.map(artist => artist.name).join(', '),
+                    albumArt: track.album.images[0].url
+                };
+
+                  songButton.innerHTML = `
+                      <img src="${track.album.images[0].url}" alt="Album Cover" class="album-art" />
+                      <div class="song-details">
+                          <p class="song-name"><strong>${track.name}</strong></p>
+                          <p class="artist-name">${track.artists.map(artist => artist.name).join(', ')}</p>
+                      </div>
+                  `;
+                  
+                  songButton.addEventListener("click", () => confirmSongSelection(songData));
+
+                  songList.appendChild(songButton);
+              });
+
+              popup.style.display = "flex";
+          } else {
+              console.warn("No tracks found.");
+          }
+      })
+      .catch(error => console.error("Error fetching song:", error));
+}
+
+// Function to add the selected song to the database
+async function confirmSongSelection(song) {
+    console.log("Selected Song:", song);
+
+    const rouletteOwner = document.getElementById('listName').value;
+
+    try {
+        // Getting roulette collection
+        const groupRoulettes = collection(db, "/groups/AAA/roulettes/");
+        const q = query(groupRoulettes, where("owner", "==", rouletteOwner));
+        const rouletteDoc = await (await getDocs(q)).docs[0];
+
+        if (!rouletteDoc) {
+            console.error("No roulette found for owner:", rouletteOwner);
+            return;
+        }
+
+        // Adding song to the selected roulette
+        const roulette = collection(db, "/groups/AAA/roulettes/", rouletteDoc.ref.id, "/songs/");
+        await addDoc(roulette, { "artist": song.artists, "title": song.name });
+
+        // Close the popup after adding the song
+        document.getElementById("songPopup").style.display = "none";
+    } catch (error) {
+        console.error("Error adding song to roulette:", error);
+    }
 }
 
 // Event listener for form submission
