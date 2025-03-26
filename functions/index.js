@@ -1,19 +1,50 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+const { onSchedule } = require('firebase-functions/v2/scheduler');
+const { logger } = require('firebase-functions');
+const admin = require('firebase-admin');
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+admin.initializeApp();
+const db = admin.firestore();
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+exports.updateRoulettes = onSchedule('0 0 * * *', async (event) => {
+    // Getting all songs
+    const songsSnapshot = await db.collectionGroup('songs').get();
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+    // Grouping songs by collection path (parent groups/roulettes)
+    const groupedSongs = {};
+
+    // Getting songs and grouping them (for randomizing)
+    songsSnapshot.docs.forEach(doc => {
+        // Getting document ids
+        const pathParts = doc.ref.path.split('/');
+        const groupId = pathParts[1];
+        const rouletteId = pathParts[3];
+
+        // Initializing the group if not already in the object
+        if (!groupedSongs[groupId]) {
+            groupedSongs[groupId] = {};
+        }
+        if (!groupedSongs[groupId][rouletteId]) {
+            groupedSongs[groupId][rouletteId] = [];
+        }
+
+        // Adding the song to the group and roulette
+        groupedSongs[groupId][rouletteId].push(doc);
+    });
+
+    // Randomly selecting one song from each roulette
+    Object.keys(groupedSongs).forEach(groupId => {
+        Object.keys(groupedSongs[groupId]).forEach(async rouletteId => {
+            const rouletteSongs = groupedSongs[groupId][rouletteId];
+            const randomIndex = Math.floor(Math.random() * rouletteSongs.length);
+            const randomSong = rouletteSongs[randomIndex];
+            const roulette = await randomSong.ref.parent.parent;
+
+            // Updating the roulette song information
+            roulette.update({'currSong': randomSong.data()['title'], 'currArtist': randomSong.data()['artist'], 'currAlbum': ""});
+            
+            // Deleting the song from the collection (isn't randomly chosen again)
+            randomSong.ref.delete();
+        });
+    });
+
+});
