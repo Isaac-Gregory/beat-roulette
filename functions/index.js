@@ -1,11 +1,11 @@
-const { onSchedule } = require('firebase-functions/v2/scheduler');
-const { logger } = require('firebase-functions');
-const admin = require('firebase-admin');
+import { onSchedule } from 'firebase-functions/v2/scheduler';
+import admin from 'firebase-admin';
+// const { logger } = require('firebase-functions');
 
 admin.initializeApp();
 const db = admin.firestore();
 
-exports.updateRoulettes = onSchedule('0 0 * * *', async (event) => {
+export const updateRoulettes = onSchedule('0 0 * * *', async () => {
     // Getting all songs
     const songsSnapshot = await db.collectionGroup('songs').get();
 
