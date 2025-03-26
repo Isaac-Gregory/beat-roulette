@@ -1,6 +1,6 @@
 # Beat Roulette
 
-This website will offer daily random song selections from curated lists by friends.
+[This website](https://beat-roulette.web.app) will offer daily random song selections from curated lists by friends.
 
 ## How to run code in VSCode
 
