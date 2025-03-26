@@ -31,7 +31,7 @@ async function showPopup(songName, artistName, albumName) {
 
             if (filteredTracks.length > 0) {
                 filteredTracks.forEach(track => {
-                  
+
                     const songButton = document.createElement("button");
                     songButton.classList.add("song-option");
                     songButton.dataset.song = JSON.stringify(track); // Store track data
@@ -110,6 +110,7 @@ async function confirmSongSelection(song) {
 
         // Close the popup after adding the song
         document.getElementById("songPopup").style.display = "none";
+        document.getElementById("popupOverlay").style.display = "none";
     } catch (error) {
         console.error("Error adding song to roulette:", error);
     }
