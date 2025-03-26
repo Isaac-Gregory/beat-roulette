@@ -39,7 +39,8 @@ async function showPopup(songName, artistName, albumName) {
                     const songData = {
                         name: track.name,
                         artists: track.artists.map(artist => artist.name).join(', '),
-                        albumArt: track.album.images[0].url
+                        albumArt: track.album.images[0].url,
+                        id: track.id
                     };
 
                     songButton.innerHTML = `
@@ -104,7 +105,8 @@ async function confirmSongSelection(song) {
 
         // Adding song to the selected roulette
         const roulette = collection(db, "/groups/AAA/roulettes/", rouletteDoc.ref.id, "/songs/");
-        await addDoc(roulette, { "artist": song.artists, "title": song.name });
+        await addDoc(roulette, { "id": song.id });
+        
 
         // Close the popup after adding the song
         document.getElementById("songPopup").style.display = "none";

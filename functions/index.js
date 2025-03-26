@@ -40,11 +40,10 @@ export const updateRoulettes = onSchedule('0 0 * * *', async () => {
             const roulette = await randomSong.ref.parent.parent;
 
             // Updating the roulette song information
-            roulette.update({'currSong': randomSong.data()['title'], 'currArtist': randomSong.data()['artist'], 'currAlbum': ""});
+            roulette.update({'songID': randomSong.data()['id']});
             
             // Deleting the song from the collection (isn't randomly chosen again)
             randomSong.ref.delete();
         });
     });
-
 });

@@ -32,14 +32,16 @@ export async function searchSong(query, amount) {
     return data.tracks.items; // Returns an array of matching tracks
 };
 
-// // Example: Search for "Shape of You"
-// searchSong("Shape of You", 1).then(tracks => {
-//     tracks.forEach(track => {
-//         console.log(`Song: ${track.name}`);
-//         console.log(`Artist: ${track.artists.map(artist => artist.name).join(', ')}`);
-//         console.log(`Album Cover: ${track.album.images[0].url}`);
-//         console.log(`Spotify URL: ${track.external_urls.spotify}`);
-//         console.log('-------------------');
-//     });
-// });
+// Searching for song information
+export async function getSong(songID) {
+    // Getting the song using the api
+    const apiUrl = `https://api.spotify.com/v1/tracks/${songID}`;
+    const response = await fetch(apiUrl, {
+        headers: { 'Authorization': `Bearer ${accessToken}` }
+    });
 
+    // Returning the response
+    const data = await response.json();
+    console.log(data)
+    return data; // Returns a single track
+};

@@ -2,7 +2,7 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
 import { getFirestore, collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js';
 import firebaseConfig from "./firebase-config.js";
-import { searchSong } from './spotify.js';
+import { getSong } from './spotify.js';
 // import { initializeApp } from 'firebase/app';
 // import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
 
@@ -24,15 +24,17 @@ async function getData(name) {
     const rouletteDoc = await (await getDocs(q)).docs[0];
 
     // Finding (singular) song
-    searchSong(rouletteDoc.data().currSong + " " + rouletteDoc.data().currArtist, 1)
-    .then(tracks => { tracks.forEach(track => {
-            // Adding song info to html
-            songName.textContent = track.name;
-            artistName.textContent = track.artists.map(artist => artist.name).join(', ');
-            albumName.textContent = track.album.name;
-            albumImg.src = track.album.images[0].url;
+    const songID = rouletteDoc.data().songID;
+    if (songID != "") {
+        getSong(songID)
+        .then(track => {
+                // Adding song info to html
+                songName.textContent = track.name;
+                artistName.textContent = track.artists.map(artist => artist.name).join(', ');
+                albumName.textContent = track.album.name;
+                albumImg.src = track.album.images[0].url;
         });
-    });
+    }
 };
 
 // Getting everyone's songs
