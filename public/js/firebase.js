@@ -103,9 +103,23 @@ async function confirmSongSelection(song) {
             return;
         }
 
-        // Adding song to the selected roulette
-        const roulette = collection(db, "/groups/AAA/roulettes/", rouletteDoc.ref.id, "/songs/");
-        await addDoc(roulette, { "id": song.id });
+        // Getting songs
+        const songsRef = collection(db, "/groups/AAA/roulettes/", rouletteDoc.ref.id, "/songs/");
+        const rouletteSongs = await getDocs(songsRef);
+
+        // Ensuring that song was not already in roulette
+        for (const doc of rouletteSongs.docs) {    
+            if (song.id == doc.data()['id']) {
+                // ADD SOME FUNCTION HERE FOR NOTIFICATION
+                // Close the popup after adding the song
+                document.getElementById("songPopup").style.display = "none";
+                document.getElementById("popupOverlay").style.display = "none";
+                return
+            }
+        }
+
+        // Adding song to roulette
+        await addDoc(songsRef, { "id": song.id });
         
 
         // Close the popup after adding the song
